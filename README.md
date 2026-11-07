@@ -6,7 +6,9 @@ chatea contigo y, solo cuando tú se lo pides, mira tu pantalla para ayudarte.
 
 <p align="center"><img src="assets/tico.svg" alt="Tico" width="160"></p>
 
-<p align="center"><a href="https://salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/"><b>🌐 Web de Tico</b></a> · <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest">Descargas</a></p>
+<p align="center"><a href="https://salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/"><b>🌐 Web de Tico</b></a> · <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest">Descargas</a> · <a href="https://buymeacoffee.com/mapachevolador">☕ Invítame a un café</a></p>
+
+<p align="center"><sub><b>English:</b> Tico is a free, open-source “dynamic island” for Windows, macOS and Linux with a little robot assistant inside. <a href="https://salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/?lang=en">See the website in English</a>.</sub></p>
 
 ## Anuncio
 
@@ -245,6 +247,13 @@ cargo test
 ```
 
 GitHub Actions ejecuta lo mismo en Windows, macOS y Linux en cada push (workflow **CI**).
+
+## Apoyar a Tico
+
+Tico es gratis, sin anuncios y sin cuentas. Si te ayuda, puedes
+[invitarme a un café](https://buymeacoffee.com/mapachevolador), darle una ⭐ al repositorio o
+[avisar de un fallo](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/issues). Para fallos
+de seguridad, mira [SECURITY.md](SECURITY.md).
 
 ## Licencia
 

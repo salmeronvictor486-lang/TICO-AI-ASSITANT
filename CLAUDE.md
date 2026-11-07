@@ -290,6 +290,13 @@ Música de fondo original (`src/site/tico-musica.mp3`, 72 s a 80 BPM, compuesta 
 `scripts/web-music.py`; `npm run site:music` la regenera). Nunca suena sola: botón en la barra de
 menús (si la encendiste otra vez, arranca con tu primer clic). Va por Web Audio con `loop` para que
 el bucle no tenga hueco, se calla en otra pestaña y los Ticos rebotan con el compás (`useMusic.ts`).
+Castellano e inglés: todos los textos en `copy.ts` (con tests), `lang.tsx` da el idioma a la
+página (`?lang=en` → lo elegido otra vez con el botón ES/EN → idioma del navegador; castellano,
+catalán, gallego y euskera ven castellano) y cambia `lang` y el título; la demo de la isla tiene
+`REPLIES_EN`. «Invitar a un café» (Buy Me a Coffee, `mapachevolador`) en descargas, pie, README y
+Ajustes → Sistema de la app. Para buscadores y redes: canónica, `hreflang`, JSON-LD
+`SoftwareApplication` (la versión la pone el plugin con `%TICO_VERSION%`), `sitemap.xml` y `og.jpg`
+de 1200×630 sacado de la portada real.
 Configuración aparte: `vite.site.config.ts` (raíz `site/`, salida `dist-site/`). La publica
 `.github/workflows/pages.yml` al cambiar algo de la web (hay que tener activado
 Settings → Pages → Source: «GitHub Actions»). Seguridad: GitHub Pages no deja poner cabeceras, así
@@ -305,7 +312,10 @@ comentarios y con nombres de archivo por hash. Vídeo: el MP4 del anuncio y una 
 cápsula, notch, Markdown); todo depende de `t`. `scripts/render-promo.mjs` lo renderiza
 fotograma a fotograma a 60 fps con el tiempo virtual de Chrome (BeginFrame) y
 `scripts/promo-music.py` sintetiza la música y los efectos. `npm run promo` lo regenera
-(necesita `npm run dev` arrancado, ffmpeg y numpy). En el render, las animaciones CSS no
+(necesita `npm run dev` arrancado, ffmpeg y numpy; busca solo el Chrome headless shell de
+Playwright, o usa la variable `CHROME`). Después: el GIF (abajo), la copia WebM de la web
+(`src/site/tico-anuncio.webm`) y las portadas (`src/site/poster.jpg` del segundo 24 y
+`promo/tico-poster.jpg` del 33,5). En el render, las animaciones CSS no
 avanzan: dentro de `.promo` están desactivadas y todo se anima desde la línea de tiempo.
 Los bucles de animación usan `performance.now()` (no el argumento de rAF) por lo mismo.
 En el README se ve `promo/tico-anuncio.gif` (720 px, 15 fps, 128 colores, ~5 MB), que GitHub
