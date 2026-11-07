@@ -12,6 +12,7 @@
  * Variables: CHROME (ruta al headless_shell), PROMO_URL, FPS, DURATION (para pruebas).
  */
 import { spawn } from "node:child_process";
+import { existsSync, readdirSync } from "node:fs";
 import puppeteer from "puppeteer-core";
 
 const FPS = Number(process.env.FPS ?? 60);
@@ -19,7 +20,21 @@ const DURATION = Number(process.env.DURATION ?? 35);
 const W = 1920;
 const H = 1080;
 const url = process.env.PROMO_URL ?? "http://localhost:1420/promo.html?render=1";
-const chrome = process.env.CHROME ?? "/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell";
+const chrome = process.env.CHROME ?? findHeadlessShell();
+
+/** El "headless shell" de Playwright cambia de carpeta con cada versión: lo buscamos. */
+function findHeadlessShell() {
+  const root = "/opt/pw-browsers";
+  const names = ["chrome-headless-shell-linux64/chrome-headless-shell", "chrome-linux/headless_shell"];
+  const dirs = existsSync(root) ? readdirSync(root).filter((d) => d.startsWith("chromium_headless_shell")) : [];
+  for (const dir of dirs.sort().reverse()) {
+    for (const name of names) {
+      const path = `${root}/${dir}/${name}`;
+      if (existsSync(path)) return path;
+    }
+  }
+  throw new Error("No encuentro Chrome headless shell: pon su ruta en la variable CHROME");
+}
 const out = process.argv[2] ?? "promo/tico-anuncio.mp4";
 const audio = process.argv[3];
 

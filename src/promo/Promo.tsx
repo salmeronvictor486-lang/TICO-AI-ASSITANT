@@ -534,7 +534,7 @@ function CharacterScene({ t }: { t: number }) {
           {current?.label}
         </h2>
         <p className="small" style={{ opacity: title }}>
-          8 expresiones · brazos · animado a 60 fps
+          15 expresiones · brazos · animado a 60 fps
         </p>
       </div>
     </div>
@@ -548,7 +548,7 @@ function CharacterScene({ t }: { t: number }) {
 const FEATURES = [
   { icon: "✦", title: "Claude · OpenAI · Gemini · Ollama", text: "Tu IA favorita, o una local y gratis." },
   { icon: "◉", title: "Privacidad primero", text: "Solo mira cuando tú lo pides. Nada se guarda." },
-  { icon: "▲", title: "Windows y macOS", text: "Y en MacBook, nace del notch." },
+  { icon: "▲", title: "Windows · macOS · Linux", text: "Y en MacBook, nace del notch." },
   { icon: "❝", title: "Castellano · Català · English", text: "Habla tu idioma." },
 ];
 
@@ -603,7 +603,7 @@ function EndCard({ t }: { t: number }) {
         La isla dinámica con un robot dentro.
       </p>
       <p className="cta" style={style(cta)}>
-        Descárgalo gratis · Windows y macOS
+        Descárgalo gratis · Windows, macOS y Linux
       </p>
     </div>
   );
