@@ -272,7 +272,10 @@ src-tauri/src/
     y código con lenguaje y botón de copiar. El chat solo baja solo si ya estabas abajo.
 
 ## Web (`site/`)
-Web para promocionar Tico en GitHub Pages (`https://salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/`).
+Web para promocionar Tico en GitHub Pages (`https://salmeronvictor486-lang.github.io/TICO-AI-ASSITANT/`).
+El repositorio se llamaba `ROBOT-ASISTENTE`: GitHub redirige los enlaces y la API del nombre viejo
+(así las apps ya instaladas siguen viendo las versiones nuevas), pero la web de Pages solo vive en la
+dirección nueva.
 `site/index.html` + `site/main.tsx` y el código en `src/site/`. Idea de diseño: la página es una
 pantalla; arriba hay una barra de menús (con reloj) y de su borde cuelga la isla de verdad
 (`LiveIsland.tsx`), que usa la misma máquina de estados que la app (`island/machine.ts`): ratón 150 ms

@@ -8,7 +8,7 @@ use crate::error::AppResult;
 use crate::island::lock;
 use crate::state::AppState;
 
-const LATEST: &str = "https://api.github.com/repos/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest";
+const LATEST: &str = "https://api.github.com/repos/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest";
 
 #[derive(Deserialize)]
 struct Release {

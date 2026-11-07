@@ -6,9 +6,9 @@ chatea contigo y, solo cuando tú se lo pides, mira tu pantalla para ayudarte.
 
 <p align="center"><img src="assets/tico.svg" alt="Tico" width="160"></p>
 
-<p align="center"><a href="https://salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/"><b>🌐 Web de Tico</b></a> · <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest">Descargas</a> · <a href="https://buymeacoffee.com/mapachevolador">☕ Invítame a un café</a></p>
+<p align="center"><a href="https://salmeronvictor486-lang.github.io/TICO-AI-ASSITANT/"><b>🌐 Web de Tico</b></a> · <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest">Descargas</a> · <a href="https://buymeacoffee.com/mapachevolador">☕ Invítame a un café</a></p>
 
-<p align="center"><sub><b>English:</b> Tico is a free, open-source “dynamic island” for Windows, macOS and Linux with a little robot assistant inside. <a href="https://salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/?lang=en">See the website in English</a>.</sub></p>
+<p align="center"><sub><b>English:</b> Tico is a free, open-source “dynamic island” for Windows, macOS and Linux with a little robot assistant inside. <a href="https://salmeronvictor486-lang.github.io/TICO-AI-ASSITANT/?lang=en">See the website in English</a>.</sub></p>
 
 ## Anuncio
 
@@ -116,29 +116,29 @@ En **Ajustes → Inteligencia artificial** cada servicio tiene su botón «Conse
 Pulsa el botón de tu sistema y la descarga empieza sola:
 
 <p align="center">
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x64-setup.exe"><img alt="Windows 64 bits (.exe)" src="https://img.shields.io/badge/Windows%2064%20bits-.exe-0078D4?style=for-the-badge&logo=windows&logoColor=white"></a>
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x86-setup.exe"><img alt="Windows 32 bits / ARM (.exe)" src="https://img.shields.io/badge/Windows%2032%20bits%20%2F%20ARM-.exe-0078D4?style=for-the-badge&logo=windows&logoColor=white"></a>
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-macOS.dmg"><img alt="macOS (.dmg)" src="https://img.shields.io/badge/macOS-.dmg-111111?style=for-the-badge&logo=apple&logoColor=white"></a>
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Linux-amd64.deb"><img alt="Linux (.deb)" src="https://img.shields.io/badge/Linux-.deb-E95420?style=for-the-badge&logo=linux&logoColor=white"></a>
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Linux-x86_64.AppImage"><img alt="Linux (AppImage)" src="https://img.shields.io/badge/Linux-AppImage-E95420?style=for-the-badge&logo=linux&logoColor=white"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x64-setup.exe"><img alt="Windows 64 bits (.exe)" src="https://img.shields.io/badge/Windows%2064%20bits-.exe-0078D4?style=for-the-badge&logo=windows&logoColor=white"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x86-setup.exe"><img alt="Windows 32 bits / ARM (.exe)" src="https://img.shields.io/badge/Windows%2032%20bits%20%2F%20ARM-.exe-0078D4?style=for-the-badge&logo=windows&logoColor=white"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-macOS.dmg"><img alt="macOS (.dmg)" src="https://img.shields.io/badge/macOS-.dmg-111111?style=for-the-badge&logo=apple&logoColor=white"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Linux-amd64.deb"><img alt="Linux (.deb)" src="https://img.shields.io/badge/Linux-.deb-E95420?style=for-the-badge&logo=linux&logoColor=white"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Linux-x86_64.AppImage"><img alt="Linux (AppImage)" src="https://img.shields.io/badge/Linux-AppImage-E95420?style=for-the-badge&logo=linux&logoColor=white"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x64-portable.zip"><img alt="Windows 64 bits portable (.zip)" src="https://img.shields.io/badge/Windows%2064%20bits-portable%20.zip-3DD6D0?style=for-the-badge&logo=windows&logoColor=black"></a>
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x86-portable.zip"><img alt="Windows 32 bits portable (.zip)" src="https://img.shields.io/badge/Windows%2032%20bits-portable%20.zip-3DD6D0?style=for-the-badge&logo=windows&logoColor=black"></a>
-  <a href="https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/archive/HEAD.zip"><img alt="Código fuente (.zip)" src="https://img.shields.io/badge/C%C3%B3digo%20fuente-.zip-555555?style=for-the-badge&logo=github&logoColor=white"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x64-portable.zip"><img alt="Windows 64 bits portable (.zip)" src="https://img.shields.io/badge/Windows%2064%20bits-portable%20.zip-3DD6D0?style=for-the-badge&logo=windows&logoColor=black"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x86-portable.zip"><img alt="Windows 32 bits portable (.zip)" src="https://img.shields.io/badge/Windows%2032%20bits-portable%20.zip-3DD6D0?style=for-the-badge&logo=windows&logoColor=black"></a>
+  <a href="https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/archive/HEAD.zip"><img alt="Código fuente (.zip)" src="https://img.shields.io/badge/C%C3%B3digo%20fuente-.zip-555555?style=for-the-badge&logo=github&logoColor=white"></a>
 </p>
 
 | Archivo | Para |
 | ------- | ---- |
-| [`Tico-Windows-x64-setup.exe`](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x64-setup.exe) | Windows 10/11 de 64 bits con Intel o AMD (lo más común) |
-| [`Tico-Windows-x86-setup.exe`](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x86-setup.exe) | Windows de 32 bits y Windows 10 con procesador ARM |
-| [`Tico-macOS.dmg`](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-macOS.dmg) | Mac con Intel o Apple Silicon |
-| [`Tico-Linux-amd64.deb`](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Linux-amd64.deb) | Ubuntu 24.04+, Debian 13, Linux Mint 22, Pop!_OS 24… (64 bits) |
-| [`Tico-Linux-x86_64.AppImage`](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Linux-x86_64.AppImage) | Cualquier Linux de 64 bits reciente (2024 o después), sin instalar |
-| [`Tico-Windows-x64-portable.zip`](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x64-portable.zip) | Igual que el `.exe` de 64 bits, pero sin instalar: descomprime y abre `Tico.exe` |
-| [`Tico-Windows-x86-portable.zip`](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-Windows-x86-portable.zip) | Igual que el de 32 bits, sin instalar |
-| [Código fuente (`.zip`)](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/archive/HEAD.zip) | Para compilarlo tú (ver más abajo) |
+| [`Tico-Windows-x64-setup.exe`](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x64-setup.exe) | Windows 10/11 de 64 bits con Intel o AMD (lo más común) |
+| [`Tico-Windows-x86-setup.exe`](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x86-setup.exe) | Windows de 32 bits y Windows 10 con procesador ARM |
+| [`Tico-macOS.dmg`](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-macOS.dmg) | Mac con Intel o Apple Silicon |
+| [`Tico-Linux-amd64.deb`](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Linux-amd64.deb) | Ubuntu 24.04+, Debian 13, Linux Mint 22, Pop!_OS 24… (64 bits) |
+| [`Tico-Linux-x86_64.AppImage`](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Linux-x86_64.AppImage) | Cualquier Linux de 64 bits reciente (2024 o después), sin instalar |
+| [`Tico-Windows-x64-portable.zip`](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x64-portable.zip) | Igual que el `.exe` de 64 bits, pero sin instalar: descomprime y abre `Tico.exe` |
+| [`Tico-Windows-x86-portable.zip`](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-Windows-x86-portable.zip) | Igual que el de 32 bits, sin instalar |
+| [Código fuente (`.zip`)](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/archive/HEAD.zip) | Para compilarlo tú (ver más abajo) |
 
 En **Linux**: el `.deb` se instala con `sudo apt install ./Tico-Linux-amd64.deb`; el
 AppImage, con `chmod +x Tico-Linux-x86_64.AppImage` y doble clic. Funciona mejor en
@@ -151,7 +151,7 @@ Si al abrir el de 64 bits sale "No se puede ejecutar esta aplicación en el equi
 usa el de 32 bits.
 
 - Los botones siempre bajan **la última versión publicada** (en
-  [Releases](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases) están todas).
+  [Releases](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases) están todas).
 - La versión portable necesita **WebView2**: Windows 11 ya lo trae; en Windows 10, si no
   arranca, usa el instalador (lo instala solo) o descárgalo de Microsoft.
 - Mientras el repositorio sea **privado**, los enlaces solo funcionan si has iniciado
@@ -221,8 +221,8 @@ En macOS: `xcode-select --install`, Rust y Node. Guía oficial:
 <https://v2.tauri.app/start/prerequisites/>
 
 ```powershell
-git clone https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE.git
-cd ROBOT-ASISTENTE
+git clone https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT.git
+cd TICO-AI-ASSITANT
 npm install
 npx tauri info      # resumen del entorno: debe salir todo con ✔
 npm run tauri dev   # la primera vez tarda varios minutos (compila Rust)
@@ -252,7 +252,7 @@ GitHub Actions ejecuta lo mismo en Windows, macOS y Linux en cada push (workflow
 
 Tico es gratis, sin anuncios y sin cuentas. Si te ayuda, puedes
 [invitarme a un café](https://buymeacoffee.com/mapachevolador), darle una ⭐ al repositorio o
-[avisar de un fallo](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/issues). Para fallos
+[avisar de un fallo](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/issues). Para fallos
 de seguridad, mira [SECURITY.md](SECURITY.md).
 
 ## Licencia

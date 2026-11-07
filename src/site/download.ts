@@ -4,7 +4,7 @@
  * la última versión publicada sin tocar la web.
  */
 
-export const REPO_URL = "https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE";
+export const REPO_URL = "https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT";
 export const RELEASES_URL = `${REPO_URL}/releases/latest`;
 
 export type Platform = "windows" | "mac" | "linux" | "mobile" | "unknown";

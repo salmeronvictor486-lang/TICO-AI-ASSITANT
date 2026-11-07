@@ -45,7 +45,7 @@ function securityHeaders(): Plugin {
 
 export default defineConfig({
   root: "site",
-  // Rutas relativas: funciona en salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/ y en un dominio propio.
+  // Rutas relativas: funciona en salmeronvictor486-lang.github.io/TICO-AI-ASSITANT/ y en un dominio propio.
   base: "./",
   plugins: [react(), securityHeaders()],
   define: { __APP_VERSION__: JSON.stringify(pkg.version) },

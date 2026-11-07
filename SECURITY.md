@@ -7,7 +7,7 @@
 | Versión | Soporte |
 | ------- | ------- |
 | 1.2.x   | ✅ Sí   |
-| < 1.2   | ❌ No: actualiza a la [última versión](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest) |
+| < 1.2   | ❌ No: actualiza a la [última versión](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest) |
 
 Tico avisa solo cuando hay una versión nueva (Ajustes → Sistema).
 
@@ -15,7 +15,7 @@ Tico avisa solo cuando hay una versión nueva (Ajustes → Sistema).
 
 **No abras un issue público**: cualquiera podría aprovecharlo antes de que esté arreglado.
 
-1. Entra en [Security → Report a vulnerability](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/security/advisories/new).
+1. Entra en [Security → Report a vulnerability](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/security/advisories/new).
    Es un aviso privado: solo lo vemos tú y yo.
 2. Cuenta qué pasa, en qué sistema (Windows, macOS o Linux) y con qué versión de Tico, y los
    pasos para reproducirlo. Si tienes una prueba de concepto, mejor.
@@ -50,5 +50,5 @@ README.
 ## English
 
 Supported: **1.2.x**. Please **do not open a public issue** for security problems: report them
-privately through [Security → Report a vulnerability](https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/security/advisories/new),
+privately through [Security → Report a vulnerability](https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/security/advisories/new),
 with your OS, the Tico version and steps to reproduce. I aim to reply within a week.

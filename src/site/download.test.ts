@@ -64,7 +64,7 @@ describe("primaryAsset", () => {
 
   it("los enlaces apuntan siempre a la última versión", () => {
     expect(downloadUrl(ASSETS.mac)).toBe(
-      "https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE/releases/latest/download/Tico-macOS.dmg",
+      "https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT/releases/latest/download/Tico-macOS.dmg",
     );
   });
 });

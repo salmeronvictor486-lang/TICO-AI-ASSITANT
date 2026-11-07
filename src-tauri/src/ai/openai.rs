@@ -54,7 +54,7 @@ impl OpenAiCompatible {
         if self.kind == ProviderKind::Openrouter {
             // OpenRouter usa estas cabeceras para mostrar de qué app vienen las peticiones.
             builder
-                .header("HTTP-Referer", "https://github.com/salmeronvictor486-lang/ROBOT-ASISTENTE")
+                .header("HTTP-Referer", "https://github.com/salmeronvictor486-lang/TICO-AI-ASSITANT")
                 .header("X-Title", "Tico")
         } else {
             builder
