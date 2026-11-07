@@ -27,6 +27,9 @@ declare global {
   }
 }
 
+/** Para apoyar a Tico (el mismo enlace que el botón «Sponsor» de GitHub). */
+const SUPPORT_URL = "https://buymeacoffee.com/mapachevolador";
+
 export function SettingsApp() {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [save, setSave] = useState<SaveState>({ kind: "idle" });
@@ -335,6 +338,11 @@ function SettingsPage({
             <Toggle label={t("settings.checkUpdates")} checked={settings.checkUpdates} onChange={(checkUpdates) => update({ checkUpdates })} />
           </Row>
           <UpdateRow />
+          <Row label={t("settings.support")} hint={t("settings.supportHint")}>
+            <button type="button" className="button" onClick={() => void api.openUrl(SUPPORT_URL).catch(console.error)}>
+              ☕ {t("settings.supportButton")}
+            </button>
+          </Row>
           <div className="inline">
             <button type="button" className="button" onClick={() => void api.openSettings("welcome").catch(console.error)}>
               {t("settings.showWelcome")}
