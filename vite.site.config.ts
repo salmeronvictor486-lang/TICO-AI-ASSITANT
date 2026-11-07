@@ -38,7 +38,7 @@ function securityHeaders(): Plugin {
       const tags = ctx.server
         ? ""
         : `<meta http-equiv="Content-Security-Policy" content="${CSP}" />\n    <meta name="referrer" content="no-referrer" />`;
-      return html.replace(SECURITY_MARK, tags);
+      return html.replace(SECURITY_MARK, tags).replaceAll("%TICO_VERSION%", pkg.version);
     },
   };
 }

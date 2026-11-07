@@ -9,60 +9,25 @@ export const RELEASES_URL = `${REPO_URL}/releases/latest`;
 
 export type Platform = "windows" | "mac" | "linux" | "mobile" | "unknown";
 
+export type AssetId = "winX64" | "winX64Zip" | "winX86" | "winX86Zip" | "mac" | "appImage" | "deb";
+
 export interface Asset {
+  id: AssetId;
   file: string;
-  /** Texto del botón. */
-  label: string;
-  /** Detalle debajo del botón. */
-  note: string;
-  /** Tamaño aproximado (el de la 1.2.0; cambia poco entre versiones). */
-  size: string;
+  /** Tamaño aproximado en MB (el de la 1.2.0; cambia poco entre versiones). */
+  mb: number;
 }
 
+/** Los textos de cada archivo (para qué sirve) están en `copy.ts`, en cada idioma. */
 export const ASSETS = {
-  winX64: {
-    file: "Tico-Windows-x64-setup.exe",
-    label: "Instalador",
-    note: "Windows 10 y 11 de 64 bits (Intel o AMD)",
-    size: "4,4 MB",
-  },
-  winX64Zip: {
-    file: "Tico-Windows-x64-portable.zip",
-    label: "Portable",
-    note: "Sin instalar · 64 bits",
-    size: "5,5 MB",
-  },
-  winX86: {
-    file: "Tico-Windows-x86-setup.exe",
-    label: "Instalador 32 bits",
-    note: "Windows de 32 bits y Windows 10 ARM",
-    size: "4,0 MB",
-  },
-  winX86Zip: {
-    file: "Tico-Windows-x86-portable.zip",
-    label: "Portable 32 bits",
-    note: "Sin instalar · 32 bits y ARM",
-    size: "4,9 MB",
-  },
-  mac: {
-    file: "Tico-macOS.dmg",
-    label: "Imagen de disco",
-    note: "macOS 11 o posterior · Apple Silicon e Intel",
-    size: "10,6 MB",
-  },
-  appImage: {
-    file: "Tico-Linux-x86_64.AppImage",
-    label: "AppImage",
-    note: "Sin instalar · Fedora 40+, Arch y otras",
-    size: "85 MB",
-  },
-  deb: {
-    file: "Tico-Linux-amd64.deb",
-    label: "Paquete .deb",
-    note: "Ubuntu 24.04+, Debian 13, Linux Mint 22",
-    size: "6,4 MB",
-  },
-} satisfies Record<string, Asset>;
+  winX64: { id: "winX64", file: "Tico-Windows-x64-setup.exe", mb: 4.4 },
+  winX64Zip: { id: "winX64Zip", file: "Tico-Windows-x64-portable.zip", mb: 5.5 },
+  winX86: { id: "winX86", file: "Tico-Windows-x86-setup.exe", mb: 4.0 },
+  winX86Zip: { id: "winX86Zip", file: "Tico-Windows-x86-portable.zip", mb: 4.9 },
+  mac: { id: "mac", file: "Tico-macOS.dmg", mb: 10.6 },
+  appImage: { id: "appImage", file: "Tico-Linux-x86_64.AppImage", mb: 85 },
+  deb: { id: "deb", file: "Tico-Linux-amd64.deb", mb: 6.4 },
+} satisfies Record<AssetId, Asset>;
 
 export function downloadUrl(asset: Asset): string {
   return `${RELEASES_URL}/download/${asset.file}`;
@@ -124,14 +89,6 @@ export function primaryAsset(info: DeviceInfo): Asset | null {
       return null;
   }
 }
-
-export const PLATFORM_NAMES: Record<Platform, string> = {
-  windows: "Windows",
-  mac: "macOS",
-  linux: "Linux",
-  mobile: "móvil",
-  unknown: "tu sistema",
-};
 
 interface UADataLike {
   platform?: string;

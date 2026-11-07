@@ -237,6 +237,23 @@ kbd {
   color: var(--ink-2);
 }
 
+.lang-btn {
+  padding: 2px 8px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.lang-btn:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+
 .music-btn {
   display: inline-flex;
   align-items: center;
@@ -1423,6 +1440,41 @@ kbd {
   margin-top: 20px;
 }
 
+.support {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 40px;
+  padding: 22px 24px;
+  border: 1px dashed var(--rule);
+  border-radius: 20px;
+}
+
+.support p {
+  max-width: 46em;
+  color: var(--ink-2);
+}
+
+.support-btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--desk);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.25s var(--spring);
+}
+
+.support-btn:hover {
+  transform: translateY(-2px);
+}
+
 .sheet-more a {
   display: inline-flex;
   align-items: center;
@@ -1628,6 +1680,10 @@ kbd {
 
   .music-btn {
     padding: 4px 8px;
+  }
+
+  .menubar-right {
+    gap: 10px;
   }
 
   .section {

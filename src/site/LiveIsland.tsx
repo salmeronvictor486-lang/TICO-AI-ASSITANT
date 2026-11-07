@@ -2,7 +2,17 @@ import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { initialIsland, islandReducer } from "../island/machine";
 import { useReducedMotion } from "../lib/useReducedMotion";
 import { Tico } from "../robot/Tico";
-import { boldParts, nextSuggestions, replyDuration, replyFrame, type Reply, type ReplyFrame } from "./replies";
+import { useCopy } from "./lang";
+import {
+  boldParts,
+  nextSuggestions,
+  REPLIES,
+  REPLIES_EN,
+  replyDuration,
+  replyFrame,
+  type Reply,
+  type ReplyFrame,
+} from "./replies";
 
 /** Igual que la app: 3 px de borde y 150 ms quieto para asomar. */
 const EDGE_PX = 3;
@@ -61,6 +71,9 @@ export function LiveIsland({
   /** Compás de la música de fondo: Tico baila con ella. */
   beat: number;
 }) {
+  const copy = useCopy();
+  const text = copy.island;
+  const replies = copy.lang === "en" ? REPLIES_EN : REPLIES;
   const [ctx, dispatch] = useReducer(islandReducer, initialIsland);
   const [log, setLog] = useState<Exchange[]>([]);
   const [frame, setFrame] = useState<ReplyFrame | null>(null);
@@ -180,7 +193,7 @@ export function LiveIsland({
 
   const asked = log.map((e) => e.reply.id);
   const expression = frame?.expression ?? (state === "hidden" ? "idle" : "curious");
-  const status = busy ? (frame?.phase === "thinking" ? "Pensando…" : "Respondiendo…") : "Demo · elige una pregunta";
+  const status = busy ? (frame?.phase === "thinking" ? text.thinking : text.answering) : text.idle;
 
   return (
     <div
@@ -213,7 +226,7 @@ export function LiveIsland({
       </div>
 
       <div className="island-compact" aria-hidden={state !== "compact"}>
-        <span>Haz clic para hablar conmigo</span>
+        <span>{text.compact}</span>
         <i className="island-live" />
       </div>
 
@@ -221,12 +234,12 @@ export function LiveIsland({
         <div className="island-panel island-notice" role="status">
           <strong>{notice.title}</strong>
           <p>{notice.text}</p>
-          <button type="button" className="island-x" aria-label="Cerrar aviso" onClick={onNoticeDone}>
+          <button type="button" className="island-x" aria-label={text.close} onClick={onNoticeDone}>
             ×
           </button>
         </div>
       ) : (
-        <section className="island-panel" aria-label="Demo de Tico" aria-hidden={state !== "expanded"}>
+        <section className="island-panel" aria-label={text.aria} aria-hidden={state !== "expanded"}>
           <header>
             <strong>Tico</strong>
             <small>{status}</small>
@@ -234,24 +247,26 @@ export function LiveIsland({
           </header>
           <div ref={chatRef} className="island-chat" aria-live="polite">
             {log.length === 0 && (
-              <p className="island-hello">Hola. En la app me escribes lo que quieras; aquí, elige una:</p>
+              <p className="island-hello">{text.hello}</p>
             )}
             {log.map((exchange, i) => {
+              // Si cambias de idioma, lo ya dicho se ve en el idioma nuevo.
+              const reply = replies.find((r) => r.id === exchange.reply.id) ?? exchange.reply;
               const live = i === log.length - 1;
-              const text = live ? (frame?.text ?? "") : exchange.reply.answer;
+              const answer = live && frame?.phase !== "done" ? (frame?.text ?? "") : reply.answer;
               return (
                 <div key={`${exchange.start}`} className="island-pair">
-                  <p className="msg is-you">{exchange.reply.question}</p>
+                  <p className="msg is-you">{reply.question}</p>
                   {live && frame?.phase === "thinking" ? (
-                    <p className="msg is-tico is-thinking" aria-label="Pensando">
+                    <p className="msg is-tico is-thinking" aria-label={text.thinking}>
                       <i />
                       <i />
                       <i />
                     </p>
                   ) : (
-                    text && (
+                    answer && (
                       <p className="msg is-tico">
-                        <Bold text={text} />
+                        <Bold text={answer} />
                       </p>
                     )
                   )}
@@ -260,7 +275,7 @@ export function LiveIsland({
             })}
           </div>
           <div className="island-chips">
-            {nextSuggestions(asked).map((reply) => (
+            {nextSuggestions(asked, 3, replies).map((reply) => (
               <button
                 key={reply.id}
                 type="button"

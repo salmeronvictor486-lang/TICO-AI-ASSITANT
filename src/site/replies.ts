@@ -51,6 +51,39 @@ export const REPLIES: Reply[] = [
   },
 ];
 
+/** Las mismas respuestas en inglés (mismos ids, caras y captura). */
+export const REPLIES_EN: Reply[] = [
+  {
+    id: "screen",
+    question: "What do you see on my screen?",
+    answer: "I see the Tico website: a big headline, the black download button and me, quite large, looking at you.",
+    working: "watching",
+    done: "happy",
+    capture: true,
+  },
+  {
+    id: "pdf",
+    question: "Turn this Word file into a PDF",
+    answer: "Done. **Report.pdf** is in your Downloads. I used Word, no AI needed.",
+    working: "working",
+    done: "proud",
+  },
+  {
+    id: "music",
+    question: "Play the next song",
+    answer: "Now playing **Rain in Kyoto** on Spotify. I can turn it up a little if you like.",
+    working: "curious",
+    done: "happy",
+  },
+  {
+    id: "memory",
+    question: "Remember that I study law",
+    answer: "Noted. I'll keep it in mind in **every** conversation.",
+    working: "thinking",
+    done: "love",
+  },
+];
+
 /** Lo que tarda en "pensar" antes del primer trozo. */
 export const THINK_MS = 900;
 /** Milisegundos por carácter mientras escribe. */
@@ -94,9 +127,9 @@ export function replyFrame(reply: Reply, ms: number): ReplyFrame {
 }
 
 /** Preguntas para ofrecer: primero las que aún no se han hecho. */
-export function nextSuggestions(asked: readonly string[], count = 3): Reply[] {
-  const fresh = REPLIES.filter((r) => !asked.includes(r.id));
-  return (fresh.length > 0 ? fresh : REPLIES).slice(0, count);
+export function nextSuggestions(asked: readonly string[], count = 3, replies: readonly Reply[] = REPLIES): Reply[] {
+  const fresh = replies.filter((r) => !asked.includes(r.id));
+  return (fresh.length > 0 ? fresh : replies).slice(0, count);
 }
 
 /** `**negrita**` → trozos para pintar sin HTML. */

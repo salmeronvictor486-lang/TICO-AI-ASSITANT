@@ -5,11 +5,11 @@ import type { Expression } from "../robot/expressions";
 import { setGaze } from "../robot/gaze";
 import { Tico } from "../robot/Tico";
 import { DEFAULT_TICOS } from "../types";
+import { fileKind, formatMb, type DesktopOs } from "./copy";
 import {
   ASSETS,
   detectPlatform,
   downloadUrl,
-  PLATFORM_NAMES,
   primaryAsset,
   readDevice,
   RELEASES_URL,
@@ -18,7 +18,8 @@ import {
   type DeviceInfo,
   type Platform,
 } from "./download";
-import { IconApple, IconArrowUp, IconExternal, IconGitHub, IconLinux, IconPlay, IconWindows } from "./icons";
+import { IconApple, IconArrowUp, IconCoffee, IconExternal, IconGitHub, IconLinux, IconPlay, IconWindows } from "./icons";
+import { LangProvider, useCopy, useLangToggle } from "./lang";
 import { LiveIsland, openIsland, type Notice } from "./LiveIsland";
 import { useMusic, type Music } from "./useMusic";
 import music from "./tico-musica.mp3";
@@ -33,6 +34,8 @@ import "./site.css";
 const VERSION = __APP_VERSION__;
 const BASE = "#F2F0EB";
 const ACCENT = "#3DD6D0";
+/** Para apoyar a Tico (el mismo enlace que el botón «Sponsor» de GitHub). */
+const SUPPORT_URL = "https://buymeacoffee.com/mapachevolador";
 
 /* ------------------------------------------------------------------ */
 /* Equipo del visitante                                                */
@@ -54,20 +57,6 @@ function useDevice(): { platform: Platform; primary: Asset | null; touch: boolea
   return { platform, primary: primaryAsset(info), touch: platform === "mobile" };
 }
 
-/** Consejo para la primera vez que se abre (la app no lleva firma de pago). */
-function firstRunTip(asset: Asset): string {
-  if (asset.file.endsWith(".dmg")) {
-    return "Arrastra Tico a Aplicaciones. Si macOS no lo abre: Ajustes del Sistema → Privacidad y seguridad → Abrir igualmente.";
-  }
-  if (asset.file.endsWith(".AppImage")) {
-    return "Dale permiso para ejecutarse (Propiedades → Permitir ejecutar) y ábrelo con doble clic.";
-  }
-  if (asset.file.endsWith(".deb")) {
-    return "Ábrelo con el Centro de software o en la terminal: sudo apt install ./Tico-Linux-amd64.deb";
-  }
-  return "Si sale «Windows protegió su PC», pulsa Más información → Ejecutar de todas formas.";
-}
-
 let noticeId = 0;
 
 /* ------------------------------------------------------------------ */
@@ -75,6 +64,15 @@ let noticeId = 0;
 /* ------------------------------------------------------------------ */
 
 export function Site() {
+  return (
+    <LangProvider>
+      <Page />
+    </LangProvider>
+  );
+}
+
+function Page() {
+  const copy = useCopy();
   const device = useDevice();
   const [notice, setNotice] = useState<Notice | null>(null);
   const [flash, setFlash] = useState(false);
@@ -88,15 +86,19 @@ export function Site() {
   }, []);
 
   // Al descargar, avisa la propia isla (como haría Tico en tu escritorio).
-  const onDownload = useCallback((asset: Asset) => {
-    setNotice({ id: ++noticeId, title: `Descargando ${asset.file}`, text: firstRunTip(asset) });
-  }, []);
+  const onDownload = useCallback(
+    (asset: Asset) => {
+      const island = copy.island;
+      setNotice({ id: ++noticeId, title: island.downloading(asset.file), text: island.firstRun[fileKind(asset.file)] });
+    },
+    [copy],
+  );
   const clearNotice = useCallback(() => setNotice(null), []);
 
   return (
     <>
       <a className="skip" href="#contenido">
-        Saltar al contenido
+        {copy.skip}
       </a>
       <MenuBar music={bgm} />
       <LiveIsland notice={notice} onNoticeDone={clearNotice} onCapture={setFlash} beat={bgm.beat} />
@@ -138,13 +140,14 @@ function DownloadLink({
 /* Barra de menús: la página hace de pantalla y la isla cuelga de su borde. */
 
 function Clock() {
+  const { locale } = useCopy();
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 15000);
     return () => window.clearInterval(timer);
   }, []);
-  const day = now.toLocaleDateString("es-ES", { weekday: "short", day: "numeric" });
-  const time = now.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+  const day = now.toLocaleDateString(locale, { weekday: "short", day: "numeric" });
+  const time = now.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
   return (
     <time className="clock" dateTime={now.toISOString()}>
       {day} {time}
@@ -154,14 +157,15 @@ function Clock() {
 
 /** Botón de música: barras que se mueven mientras suena. */
 function MusicButton({ music }: { music: Music }) {
+  const copy = useCopy().music;
   return (
     <button
       type="button"
       className={`music-btn${music.playing ? " is-on" : ""}`}
       aria-pressed={music.playing}
-      aria-label="Música de fondo"
+      aria-label={copy.aria}
       data-music-toggle=""
-      title="Música de fondo compuesta para Tico"
+      title={copy.title}
       onClick={music.toggle}
     >
       <span className="music-bars" aria-hidden="true">
@@ -169,26 +173,31 @@ function MusicButton({ music }: { music: Music }) {
         <i />
         <i />
       </span>
-      <span className="music-label">{music.playing ? "Música" : "Poner música"}</span>
+      <span className="music-label">{music.playing ? copy.on : copy.off}</span>
     </button>
   );
 }
 
 function MenuBar({ music }: { music: Music }) {
+  const copy = useCopy();
+  const toggleLang = useLangToggle();
   return (
     <header className="menubar">
       <a className="menubar-brand" href="#inicio">
         <Tico size={20} baseColor={BASE} accentColor={ACCENT} expression="idle" animated={false} />
         Tico
       </a>
-      <nav className="menubar-items" aria-label="Secciones">
-        <a href="#estados">La isla</a>
-        <a href="#frases">Qué hace</a>
-        <a href="#ticos">Los Ticos</a>
-        <a href="#anuncio">Anuncio</a>
-        <a href="#descargar">Descargar</a>
+      <nav className="menubar-items" aria-label={copy.nav.aria}>
+        <a href="#estados">{copy.nav.island}</a>
+        <a href="#frases">{copy.nav.phrases}</a>
+        <a href="#ticos">{copy.nav.ticos}</a>
+        <a href="#anuncio">{copy.nav.film}</a>
+        <a href="#descargar">{copy.nav.download}</a>
       </nav>
       <div className="menubar-right">
+        <button type="button" className="lang-btn" onClick={toggleLang} aria-label={copy.langSwitch.aria} title={copy.langSwitch.aria}>
+          {copy.langSwitch.label}
+        </button>
         <MusicButton music={music} />
         <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
           <IconGitHub size={15} />
@@ -206,6 +215,7 @@ const PET_MOODS: Expression[] = ["happy", "love", "wink", "surprised", "proud", 
 
 /** Tico en el escritorio: se arrastra, y con un clic saluda y cambia de cara. */
 function PetTico({ beat }: { beat: number }) {
+  const copy = useCopy().pet;
   const ref = useRef<HTMLButtonElement>(null);
   const drag = useRef({ x: 0, y: 0, startX: 0, startY: 0, baseX: 0, baseY: 0, moved: false, on: false });
   const [mood, setMood] = useState(0);
@@ -223,7 +233,7 @@ function PetTico({ beat }: { beat: number }) {
         ref={ref}
         type="button"
         className="pet-tico"
-        aria-label="Tico: haz clic para que salude, o arrástralo"
+        aria-label={copy.aria}
         onPointerDown={(e) => {
           const d = drag.current;
           Object.assign(d, { on: true, moved: false, startX: e.clientX, startY: e.clientY, baseX: d.x, baseY: d.y });
@@ -252,8 +262,8 @@ function PetTico({ beat }: { beat: number }) {
         <Tico size={260} baseColor={BASE} accentColor={ACCENT} expression={expression} wave={wave} bounce={beat} />
       </button>
       <figcaption>
-        <span>Tico en el escritorio</span>
-        <span>arrástralo · clic para saludar</span>
+        <span>{copy.caption}</span>
+        <span>{copy.hint}</span>
       </figcaption>
     </figure>
   );
@@ -269,28 +279,25 @@ function Hero({
   beat: number;
 }) {
   const { platform, primary, touch } = device;
+  const copy = useCopy();
+  const hero = copy.hero;
   return (
     <section className="hero" id="inicio">
       <div className="hero-try">
         <IconArrowUp />
         {touch ? (
-          <span>Toca la cápsula negra de arriba: es Tico.</span>
+          <span>{hero.tryTouch}</span>
         ) : (
           <span>
-            Pruébalo aquí: lleva el ratón al borde de arriba de esta página o pulsa <kbd>Ctrl</kbd> <kbd>Mayús</kbd>{" "}
-            <kbd>Espacio</kbd>
+            {hero.tryMouse} <kbd>{hero.keys[0]}</kbd> <kbd>{hero.keys[1]}</kbd> <kbd>{hero.keys[2]}</kbd>
           </span>
         )}
       </div>
 
       <div className="hero-grid">
         <div className="hero-copy">
-          <h1>Un asistente que vive arriba de tu pantalla.</h1>
-          <p className="hero-lead">
-            Tico es una isla para Windows, macOS y Linux. Llevas el ratón arriba, baja una cápsula
-            negra con un robot dentro y le pides lo que necesites: que mire tu pantalla, que pase un
-            Word a PDF o que cambie de canción. Cuando no lo usas, no ocupa nada.
-          </p>
+          <h1>{hero.title}</h1>
+          <p className="hero-lead">{hero.lead}</p>
           <div className="hero-actions">
             {primary ? (
               <DownloadLink asset={primary} className="capsule-btn" onDownload={onDownload}>
@@ -299,9 +306,9 @@ function Hero({
                   <i />
                 </span>
                 <span className="capsule-btn-text">
-                  Descargar para {PLATFORM_NAMES[platform]}
+                  {hero.downloadFor(copy.platforms[platform])}
                   <small>
-                    {primary.file} · {primary.size}
+                    {primary.file} · {formatMb(primary.mb, copy.locale)}
                   </small>
                 </span>
               </DownloadLink>
@@ -312,20 +319,19 @@ function Hero({
                   <i />
                 </span>
                 <span className="capsule-btn-text">
-                  Descargar para ordenador
-                  <small>Windows, macOS y Linux</small>
+                  {hero.downloadComputer}
+                  <small>{hero.allSystems}</small>
                 </span>
               </a>
             )}
             <a className="text-link" href={REPO_URL} target="_blank" rel="noopener noreferrer">
               <IconGitHub size={18} />
-              Código en GitHub
+              {hero.github}
               <IconExternal />
             </a>
           </div>
           <p className="hero-meta">
-            Versión {VERSION} · gratis · código abierto (MIT) · sin cuenta ·{" "}
-            <a href="#descargar">todas las descargas</a>
+            {hero.meta(VERSION)} <a href="#descargar">{hero.allDownloads}</a>
           </p>
         </div>
         <PetTico beat={beat} />
@@ -336,12 +342,7 @@ function Hero({
 
 /* Los cuatro estados, dibujados a escala con las medidas reales de la app. */
 
-const STATES: { id: IslandState; name: string; how: string }[] = [
-  { id: "hidden", name: "Oculta", how: "No ocupa nada. Tus clics pasan a lo que hay debajo." },
-  { id: "peek", name: "Asoma", how: "Ratón 150 ms en los 3 px de arriba." },
-  { id: "compact", name: "Crece", how: "Pasas el ratón por encima." },
-  { id: "expanded", name: "Abierta", how: "Un clic, o Ctrl + Mayús + Espacio desde cualquier app." },
-];
+const STATE_ORDER: IslandState[] = ["hidden", "peek", "compact", "expanded"];
 
 const DRAW_SCALE = 0.5;
 
@@ -377,26 +378,24 @@ function StateDrawing({ id }: { id: IslandState }) {
 }
 
 function States() {
+  const copy = useCopy().states;
   return (
     <section className="section states" id="estados">
       <div className="section-head">
-        <h2>Cuatro tamaños, según lo cerca que estés.</h2>
-        <p>
-          La isla está pensada para no molestar. Mientras trabajas no la ves; cuando la buscas,
-          aparece donde ya estás mirando. Fuera de la cápsula, los clics pasan a la app de debajo.
-        </p>
+        <h2>{copy.title}</h2>
+        <p>{copy.lead}</p>
       </div>
-      <div className="states-sheet" role="img" aria-label="Los cuatro estados de la isla dibujados a escala">
+      <div className="states-sheet" role="img" aria-label={copy.aria}>
         <div className="states-edge">
-          <span>borde superior de la pantalla</span>
-          <span>escala 1:2 · px</span>
+          <span>{copy.edge}</span>
+          <span>{copy.scale}</span>
         </div>
         <ol className="states-row">
-          {STATES.map((s) => (
-            <li key={s.id}>
-              <StateDrawing id={s.id} />
-              <h3>{s.name}</h3>
-              <p>{s.how}</p>
+          {STATE_ORDER.map((id) => (
+            <li key={id}>
+              <StateDrawing id={id} />
+              <h3>{copy.items[id].name}</h3>
+              <p>{copy.items[id].how}</p>
             </li>
           ))}
         </ol>
@@ -407,55 +406,18 @@ function States() {
 
 /* Lo que le puedes decir */
 
-const PHRASES: { say: string; does: string; tag: string }[] = [
-  {
-    say: "¿Qué ves en mi pantalla?",
-    does: "Hace una captura solo en ese momento, lee hasta la letra pequeña con el OCR del sistema y te contesta. Con tu banco o tu gestor de contraseñas a la vista, no captura.",
-    tag: "solo si se lo pides",
-  },
-  {
-    say: "Pásame este Word a PDF",
-    does: "Lo convierte con Word, Pages o LibreOffice. Si no tienes ninguno, usa su propio motor. El PDF aparece en Descargas.",
-    tag: "sin gastar IA",
-  },
-  {
-    say: "Envíaselo a ana@…",
-    does: "Sueltas un archivo en la isla y se abre una ventanita con Para, Asunto y Mensaje, con el adjunto ya puesto. Sale desde tu cuenta de correo.",
-    tag: "Gmail, iCloud, Outlook…",
-  },
-  {
-    say: "Pausa. Siguiente canción.",
-    does: "Controla lo que suena en Spotify, Apple Music o YouTube, con la portada en la isla, y sube o baja el volumen. Tico baila mientras tanto.",
-    tag: "sin gastar IA",
-  },
-  {
-    say: "Recuerda que estudio Derecho",
-    does: "Lo apunta y lo tiene en cuenta en todas las conversaciones. «¿Qué recuerdas de mí?» te enseña la lista y «olvida que…» la corrige.",
-    tag: "se guarda en tu ordenador",
-  },
-  {
-    say: "/traducir",
-    does: "Escribe una barra y salen los comandos: traducir, mejorar un texto, explicar, resumir un archivo, cambiar de Tico o de espacio de trabajo.",
-    tag: "paleta de comandos",
-  },
-  {
-    say: "Usa Gemini para esto",
-    does: "Funciona con Claude, ChatGPT, Gemini, Groq, Mistral, DeepSeek, Grok u OpenRouter, o gratis en tu ordenador con Ollama y LM Studio. Cambias de IA desde el chat.",
-    tag: "12 servicios",
-  },
-];
-
 function Phrases() {
+  const copy = useCopy().phrases;
   return (
     <section className="section" id="frases">
       <div className="section-head">
-        <h2>Le hablas como a una persona.</h2>
-        <p>Algunas cosas que le puedes pedir, y lo que hace con cada una.</p>
+        <h2>{copy.title}</h2>
+        <p>{copy.lead}</p>
       </div>
       <dl className="phrases">
-        {PHRASES.map((p) => (
+        {copy.items.map((p) => (
           <div key={p.say} className="phrase">
-            <dt>«{p.say}»</dt>
+            <dt>{copy.quote(p.say)}</dt>
             <dd>
               <p>{p.does}</p>
               <span className="tag">{p.tag}</span>
@@ -469,50 +431,41 @@ function Phrases() {
 
 /* Los Ticos de serie, con sus colores y su ropa reales. */
 
-const CAST_LINES: Record<string, string> = {
-  tico: "Para todo. El de siempre.",
-  code: "Código que funciona, con el porqué.",
-  translate: "Al castellano o al inglés, sin rodeos.",
-  write: "Corrige y mejora tus textos.",
-  teach: "Te lo explica paso a paso.",
-};
-
 const CAST_MOODS: Expression[] = ["happy", "wink", "love", "surprised", "proud", "dizzy", "thinking"];
 
 function CastMember({ tico, index, beat }: { tico: (typeof DEFAULT_TICOS)[number]; index: number; beat: number }) {
+  const copy = useCopy().cast;
+  const name = copy.names[tico.id] ?? tico.name;
   const [taps, setTaps] = useState(0);
   const expression: Expression = taps === 0 ? "idle" : (CAST_MOODS[(taps + index) % CAST_MOODS.length] ?? "happy");
   return (
     <li className="cast-member" style={{ ["--tico-accent" as string]: tico.accentColor }}>
-      <button type="button" onClick={() => setTaps((t) => t + 1)} aria-label={`${tico.name}: haz clic para que reaccione`}>
+      <button type="button" onClick={() => setTaps((t) => t + 1)} aria-label={copy.react(name)}>
         <Tico size={132} baseColor={tico.baseColor} accentColor={tico.accentColor} expression={expression} outfit={tico.outfit} wave={taps} bounce={beat} />
       </button>
       <h3>
         <i aria-hidden="true" />
-        {tico.name}
+        {name}
       </h3>
-      <p>{CAST_LINES[tico.id]}</p>
+      <p>{copy.lines[tico.id]}</p>
     </li>
   );
 }
 
 function Cast({ beat }: { beat: number }) {
+  const copy = useCopy().cast;
   return (
     <section className="section" id="ticos">
       <div className="section-head">
-        <h2>Un Tico para cada cosa.</h2>
-        <p>
-          Vienen cinco de serie y puedes crear hasta doce, cada uno con su ropa, sus colores, su
-          forma de responder y, si quieres, su propia IA. Los agrupas en espacios de trabajo, y si
-          abres la isla con Visual Studio Code delante, aparece el de programar.
-        </p>
+        <h2>{copy.title}</h2>
+        <p>{copy.lead}</p>
       </div>
       <ul className="cast">
         {DEFAULT_TICOS.map((tico, i) => (
           <CastMember key={tico.id} tico={tico} index={i} beat={beat} />
         ))}
       </ul>
-      <p className="cast-note">Haz clic en cualquiera: tienen 15 expresiones.</p>
+      <p className="cast-note">{copy.note}</p>
     </section>
   );
 }
@@ -520,6 +473,7 @@ function Cast({ beat }: { beat: number }) {
 /* El anuncio */
 
 function Film() {
+  const copy = useCopy().film;
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const play = () => {
@@ -532,8 +486,8 @@ function Film() {
     <section className="film" id="anuncio">
       <div className="film-inner">
         <div className="film-head">
-          <h2>El anuncio.</h2>
-          <p>35 segundos, con sonido. Hecho con los mismos componentes que la app.</p>
+          <h2>{copy.title}</h2>
+          <p>{copy.lead}</p>
         </div>
         <div className="film-window">
           <div className="film-bar" aria-hidden="true">
@@ -555,12 +509,12 @@ function Film() {
               {/* Primero el MP4 original; WebM (VP9) para los navegadores sin H.264. */}
               <source src={video} type="video/mp4" />
               <source src={videoWebm} type="video/webm" />
-              Tu navegador no puede reproducir el vídeo.
+              {copy.fallback}
             </video>
             {!playing && (
               <button type="button" className="film-play" onClick={play}>
                 <IconPlay />
-                Reproducir · 0:35
+                {copy.play}
               </button>
             )}
           </div>
@@ -572,28 +526,17 @@ function Film() {
 
 /* Privacidad, dicha en negativo: lo que no hace. */
 
-const DOESNT = [
-  "No tiene servidores ni te pide una cuenta.",
-  "No envía estadísticas de uso a nadie.",
-  "No mira tu pantalla si no se lo pides.",
-  "No guarda las capturas en el disco.",
-  "No deja tus claves en archivos: van al llavero del sistema.",
-];
-
 function Doesnt() {
+  const copy = useCopy().doesnt;
   return (
     <section className="section doesnt" id="privacidad">
-      <h2>Lo que Tico no hace.</h2>
+      <h2>{copy.title}</h2>
       <ul>
-        {DOESNT.map((line) => (
+        {copy.items.map((line) => (
           <li key={line}>{line}</li>
         ))}
       </ul>
-      <p className="doesnt-note">
-        Las conversaciones, los ajustes y lo que le pides que recuerde van en una base de datos en tu
-        ordenador. Solo sale lo que mandas a la IA que elijas. El código es abierto y los
-        instaladores se compilan a la vista en GitHub.
-      </p>
+      <p className="doesnt-note">{copy.note}</p>
     </section>
   );
 }
@@ -601,32 +544,24 @@ function Doesnt() {
 /* Descargas, como una hoja de versión. */
 
 const PLATFORMS: {
-  id: Exclude<Platform, "mobile" | "unknown">;
-  name: string;
+  id: DesktopOs;
   icon: ReactNode;
   assets: Asset[];
-  firstRun: string;
 }[] = [
   {
     id: "windows",
-    name: "Windows",
     icon: <IconWindows />,
     assets: [ASSETS.winX64, ASSETS.winX86, ASSETS.winX64Zip, ASSETS.winX86Zip],
-    firstRun: "Si sale «Windows protegió su PC», pulsa Más información → Ejecutar de todas formas.",
   },
   {
     id: "mac",
-    name: "macOS",
     icon: <IconApple />,
     assets: [ASSETS.mac],
-    firstRun: "Si dice que no puede verificarlo: Ajustes del Sistema → Privacidad y seguridad → Abrir igualmente.",
   },
   {
     id: "linux",
-    name: "Linux",
     icon: <IconLinux />,
     assets: [ASSETS.appImage, ASSETS.deb],
-    firstRun: "AppImage: Propiedades → Permitir ejecutar. Paquete: sudo apt install ./Tico-Linux-amd64.deb",
   },
 ];
 
@@ -638,80 +573,71 @@ function Downloads({
   onDownload: (asset: Asset) => void;
 }) {
   const { platform, primary } = device;
+  const copy = useCopy();
+  const d = copy.downloads;
   return (
     <section className="section" id="descargar">
       <div className="section-head">
-        <h2>Descargar Tico {VERSION}.</h2>
-        <p>Gratis y sin cuenta. Los enlaces bajan siempre la última versión publicada.</p>
+        <h2>{d.title(VERSION)}</h2>
+        <p>{d.lead}</p>
       </div>
       <div className="sheet">
         {PLATFORMS.map((p) => (
           <div key={p.id} className={`sheet-group${p.id === platform ? " is-yours" : ""}`}>
             <div className="sheet-os">
               {p.icon}
-              <h3>{p.name}</h3>
-              {p.id === platform && <span className="tag">tu equipo</span>}
+              <h3>{copy.platforms[p.id]}</h3>
+              {p.id === platform && <span className="tag">{d.yours}</span>}
             </div>
             <ul>
               {p.assets.map((asset) => (
                 <li key={asset.file} className={asset === primary ? "is-primary" : ""}>
                   <DownloadLink asset={asset} className="sheet-row" onDownload={onDownload}>
                     <span className="sheet-label">
-                      {asset.label}
-                      <small>{asset.note}</small>
+                      {d.assets[asset.id].label}
+                      <small>{d.assets[asset.id].note}</small>
                     </span>
                     <code>{asset.file}</code>
-                    <span className="sheet-size">{asset.size}</span>
-                    <span className="sheet-get">Descargar</span>
+                    <span className="sheet-size">{formatMb(asset.mb, copy.locale)}</span>
+                    <span className="sheet-get">{d.get}</span>
                   </DownloadLink>
                 </li>
               ))}
             </ul>
             <p className="sheet-first">
-              <b>La primera vez:</b> {p.firstRun}
+              <b>{d.firstTime}</b> {d.firstRun[p.id]}
             </p>
           </div>
         ))}
       </div>
       <p className="sheet-more">
         <a href={RELEASES_URL} target="_blank" rel="noopener noreferrer">
-          Notas de la versión en GitHub
+          {d.notes}
           <IconExternal />
         </a>
       </p>
+      <aside className="support">
+        <p>{d.support}</p>
+        <a className="support-btn" href={SUPPORT_URL} target="_blank" rel="noopener noreferrer">
+          <IconCoffee />
+          {d.supportButton}
+        </a>
+      </aside>
     </section>
   );
 }
 
 /* Preguntas (todas a la vista, sin acordeón) */
 
-const QUESTIONS: { q: string; a: string }[] = [
-  {
-    q: "¿Cuánto cuesta?",
-    a: "Nada. Solo pagarías la IA si eliges un servicio de pago. Con el modo demo, Groq, la capa gratuita de Gemini, Ollama o LM Studio no pagas nada.",
-  },
-  {
-    q: "¿Necesito una clave de IA?",
-    a: "Para probarlo, no: trae un modo demo. Para usarlo de verdad, la bienvenida te ayuda en un minuto a elegir una IA y pegar su clave.",
-  },
-  {
-    q: "¿Mira mi pantalla todo el rato?",
-    a: "No. Solo cuando se lo pides con el botón, el atajo o una pregunta como «¿qué ves?». La imagen no se guarda en el disco.",
-  },
-  {
-    q: "¿Funciona en mi ordenador?",
-    a: "En Windows 10 y 11 (64 bits, 32 bits y ARM), en macOS 11 o posterior (Apple Silicon e Intel) y en Linux reciente: Ubuntu 24.04, Debian 13, Fedora 40 y similares.",
-  },
-];
-
 function Questions() {
+  const copy = useCopy().questions;
   return (
     <section className="section" id="preguntas">
       <div className="section-head">
-        <h2>Preguntas.</h2>
+        <h2>{copy.title}</h2>
       </div>
       <dl className="questions">
-        {QUESTIONS.map((item) => (
+        {copy.items.map((item) => (
           <div key={item.q}>
             <dt>{item.q}</dt>
             <dd>{item.a}</dd>
@@ -723,6 +649,7 @@ function Questions() {
 }
 
 function Footer() {
+  const copy = useCopy().footer;
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -730,26 +657,25 @@ function Footer() {
           <Tico size={28} baseColor={BASE} accentColor={ACCENT} expression="sleeping" animated={false} />
           <span>
             Tico {VERSION}
-            <small>Hecho por Victor</small>
+            <small>{copy.madeBy}</small>
           </span>
         </p>
-        <p className="footer-legal">
-          El código tiene licencia MIT. Tico, su nombre, su diseño y sus sonidos son de Victor, con
-          todos los derechos reservados. La música de fondo es original, compuesta para Tico. Esta
-          web no usa cookies ni analítica.
-        </p>
-        <nav aria-label="Enlaces">
+        <p className="footer-legal">{copy.legal}</p>
+        <nav aria-label={copy.aria}>
           <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
           <a href={RELEASES_URL} target="_blank" rel="noopener noreferrer">
-            Versiones
+            {copy.releases}
           </a>
           <a href={`${REPO_URL}/issues`} target="_blank" rel="noopener noreferrer">
-            Avisar de un fallo
+            {copy.issues}
+          </a>
+          <a href={SUPPORT_URL} target="_blank" rel="noopener noreferrer">
+            {copy.support}
           </a>
           <button type="button" className="footer-try" onClick={openIsland}>
-            Abrir la isla
+            {copy.openIsland}
           </button>
         </nav>
       </div>

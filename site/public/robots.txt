@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://salmeronvictor486-lang.github.io/ROBOT-ASISTENTE/sitemap.xml

@@ -32,6 +32,13 @@ export const IconExternal = () => (
   </Icon>
 );
 
+export const IconCoffee = () => (
+  <Icon size={18}>
+    <path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5Z" />
+    <path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3c-.6 1 .6 2 0 3M12 3c-.6 1 .6 2 0 3" />
+  </Icon>
+);
+
 export const IconDownload = ({ size = 20 }: { size?: number }) => (
   <Icon size={size}>
     <path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" />

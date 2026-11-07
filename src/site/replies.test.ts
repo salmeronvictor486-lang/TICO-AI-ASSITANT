@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { boldParts, nextSuggestions, REPLIES, replyDuration, replyFrame, THINK_MS } from "./replies";
+import { boldParts, nextSuggestions, REPLIES, REPLIES_EN, replyDuration, replyFrame, THINK_MS } from "./replies";
 
 function reply(id: string) {
   const found = REPLIES.find((r) => r.id === id);
@@ -40,6 +40,15 @@ describe("nextSuggestions", () => {
 
   it("cuando ya se ha preguntado todo, vuelve a empezar", () => {
     expect(nextSuggestions(REPLIES.map((r) => r.id))).toHaveLength(3);
+  });
+});
+
+describe("REPLIES_EN", () => {
+  it("tiene las mismas preguntas, en el mismo orden y con las mismas caras", () => {
+    expect(REPLIES_EN.map((r) => [r.id, r.working, r.done, Boolean(r.capture)])).toEqual(
+      REPLIES.map((r) => [r.id, r.working, r.done, Boolean(r.capture)]),
+    );
+    expect(nextSuggestions(["screen"], 3, REPLIES_EN)[0]?.question).toBe("Turn this Word file into a PDF");
   });
 });
 
